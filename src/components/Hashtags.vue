@@ -1,12 +1,12 @@
 <template>
-    <div class="card gedf-card" id="hashtags">
-    <div class="card-header">
-        <div class="h5 text-center">Hashtags</div>
-    </div>
-    <div class="card-body">
-        <h5 class="card-title"><a href="/hashtags/"> #Hashtags </a></h5>
-    </div>
-    </div>
+    <b-card
+        header="Hashtags"
+        header-class="h5 text-center"
+    >
+    <b-card-text>
+        <a href="/hashtags/"> #Hashtags </a>
+    </b-card-text>
+    </b-card>
 </template>
 
 <script>

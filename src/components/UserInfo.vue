@@ -1,11 +1,13 @@
 <template>
   <div class="col-md-3 d-none d-sm-none d-md-none d-lg-block">
-    <div class="card">
-        <div class="card-body">
+      <b-card>
             <div class="d-flex justify-content-start align-items-center">
-                <div class="mr-2">
-                    <img class="rounded-circle" width="100" src="https://picsum.photos/50/50" alt="">
-                </div>
+                <b-card-img
+                    src="https://picsum.photos/50/50"
+                    width="100"
+                    left
+                    class="rounded-circle"
+                ></b-card-img>
                 <div class="ml-2">
                     <div class="h5 m-0"><a href="/profile/">@chague</a></div>
                     <div class="h7 text-muted">Darwin Valero</div>
@@ -15,18 +17,17 @@
                     <a href="/edit/chague" class="btn btn-primary btn-sm"> Edit </a>
                 </div>
             </div>
-        </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-                <div class="h6 text-muted"><a href="/followers/chague"> Followers </a></div>
-                <div class="h5">1000</div>
-            </li>
-            <li class="list-group-item">
-                <div class="h6 text-muted"><a href="/followings/chague"> Following </a></div>
-                <div class="h5">1000</div>
-            </li>
-        </ul>
-    </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div class="h6 text-muted"><a href="/followers/chague"> Followers </a></div>
+                    <div class="h5">1000</div>
+                </li>
+                <li class="list-group-item">
+                    <div class="h6 text-muted"><a href="/followings/chague"> Following </a></div>
+                    <div class="h5">1000</div>
+                </li>
+            </ul>
+      </b-card>
 </div>
 </template>
 

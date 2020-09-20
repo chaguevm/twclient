@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <b-navbar toggleable="lg" type="dark" variant="info">
-      <b-navbar-brand href="#">TwNode Client</b-navbar-brand>
+      <b-navbar-brand href="/">TwNode Client</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -9,6 +9,8 @@
         <b-navbar-nav>
           <b-nav-item href="/">Home</b-nav-item>
           <b-nav-item href="/about">About</b-nav-item>
+          <b-nav-item href="/Profile">Profile</b-nav-item>
+          <b-nav-item href="/Search">Search</b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
@@ -34,3 +36,13 @@
     </div>
   </div>
 </template>
+
+<script>
+  export default{
+    watch: {
+      '$route' (to, from) {
+        document.title = to.meta.title || 'Your Website'
+      }
+    }
+  }
+</script>
