@@ -26,7 +26,7 @@
               <em>User</em>
             </template>
             <b-dropdown-item href="#">Profile</b-dropdown-item>
-            <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+            <b-dropdown-item @click="logout" href="#">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
@@ -38,11 +38,24 @@
 </template>
 
 <script>
-  export default{
-    watch: {
-      '$route' (to, from) {
-        document.title = to.meta.title || 'Your Website'
+import axios from "axios";
+
+export default {
+  methods: {
+    logout(evt) {
+      if (confirm("Are you sure you want to log out?")) {
+        axios
+          .get("http://localhost:3000/logout", { withCredentials: true })
+          .then((response) => {
+            //Si el logout es correcto, retorna la vista del login
+            this.$router.push("/login");
+          })
+          .catch((error) => {
+            //En caso de error igual se direcciona al login
+            this.$router.push("/login");
+          });
       }
-    }
+    },
   }
+};
 </script>

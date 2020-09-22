@@ -51,27 +51,13 @@ export default {
             tweets: null
         }
     },
-    created(){
-        console.log('created');
-        axios.post('http://localhost:3000/login', {
-            username: 'chague',
-            password: '123456'
-        }, { withCredentials: true })
-        .then(function (response) {
-            
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-    },
     mounted(){
         console.log('mounted');
         axios
           .get('http://localhost:3000/tweets', { withCredentials: true })
           .then(res => {
-              console.log(res.data.tweets);
-              this.tweets = res.data.tweets;
-              //this.$router.push('/Profile')
+              if(res.data.code === 200)
+                this.tweets = res.data.tweets;
           })
           .catch(e =>{
               console.log(e);
