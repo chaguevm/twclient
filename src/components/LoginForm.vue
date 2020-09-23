@@ -52,6 +52,7 @@
 
 <script>
 import axios from 'axios';
+import { mapState, mapMutations } from 'vuex';
 
     export default{
         name: 'LoginForm',
@@ -83,13 +84,21 @@ import axios from 'axios';
                         }
                         this.message = response.data.message;
                     }else if(response.data.code === 200){
-                        this.$router.push('/')
+                        if (localStorage.getItem("user") === null) {
+                            localStorage.setItem('user', true);
+                        }
+                        this.check();
+                        this.$router.push('/');
                     }
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
-            }
+            },
+            ...mapMutations({ check: 'checkLogin'})
+        },
+        computed: {
+            ...mapState(['user'])
         }
     }
 </script>

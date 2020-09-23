@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import axios from 'axios';
+import store from '@/store'
 
 Vue.use(VueRouter)
 
@@ -38,6 +39,15 @@ const routes = [
     }
   },
   {
+    path: '/signup',
+    name: 'SignUp',
+    component: () => import(/* webpackChunkName: "signup" */ '../views/SignUp.vue'),
+    meta: {
+      title: route => 'TwNode Vue SignUp',
+      hideForAuth: true
+    }
+  },
+  {
     path: '/:username',
     name: 'Profile',
     component: () => import(/* webpackChunkName: "profile" */ '../views/Profile.vue'),
@@ -60,29 +70,25 @@ router.afterEach((to, from) => {
   })
 })
 
-router.beforeEach((to, from, next) =>{
-  axios.get('http://localhost:3000', { withCredentials: true })
-  .then(response => {
-    if(response.data.code === 403 && response.data.success === 'Already Logged'){
-      if(to.matched.some(record => record.meta.hideForAuth))
-        next({path: '/'});
-      else if(to.matched.some(record => record.meta.requiresAuth))
-        next();
-    }else{
+router.beforeEach(async (to, from, next) =>{
+  const user = localStorage.getItem('user');
+  //Si el localStorage user no existe es xq no se ha logueado
+  if(user === null){
+    //Si la url a la que intenta entrar se debe ocultar si ya esta logueado
+    //En este caso se debe mostrar, asi que pasa limpia next
+    if(to.matched.some(record => record.meta.hideForAuth))
       next();
-    }    
-    
-    if(response.data.code === 403 && response.data.success === 'Must be logged'){
-      if(to.matched.some(record => record.meta.hideForAuth))
-        next();
-      else if(to.matched.some(record => record.meta.requiresAuth))
-        next({path: '/login'});
-    }else
+    //Si la url a la que se intenta entrar, necesita loguear, se redirecciona al login
+    else if(to.matched.some(record => record.meta.requiresAuth))
+      next({path: '/login'});
+  }else{
+    //Si la url a la que intenta entrar se debe ocultar si ya esta logueado, se redirecciona a la raiz
+    if(to.matched.some(record => record.meta.hideForAuth))
+      next({path: '/'});
+    //Si la url a la que se intenta entrar, necesita loguear, se deja pasar
+    else if(to.matched.some(record => record.meta.requiresAuth))
       next();
-  })
-  .catch(err => {
-    console.log(err);
-  })
+  }
 })
 
 export default router
