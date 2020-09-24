@@ -25,6 +25,6 @@ export default {
   name: "UserFound",
   props: {
     msg: String,
-  },
+  }
 };
 </script>

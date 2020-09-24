@@ -1,82 +1,50 @@
 <template>
-  <div class="card gedf-card">
-    <div class="card-header">
-      <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-        <li class="nav-item">
-          <a
-            class="nav-link active"
-            id="posts-tab"
-            data-toggle="tab"
-            href="#posts"
-            role="tab"
-            aria-controls="posts"
-            aria-selected="true"
-          >
-            Make
-            a publication
-          </a>
-        </li>
-      </ul>
-    </div>
-    <div class="card-body">
-      <form action="/tweet" method="POST">
-        <div class="tab-content" id="myTabContent">
-          <div
-            class="tab-pane fade show active"
-            id="posts"
-            role="tabpanel"
-            aria-labelledby="posts-tab"
-          >
-            <div class="form-group">
-              <label class="sr-only" for="message">post</label>
-              <textarea
-                class="form-control"
-                id="tweet"
-                name="tweet"
-                rows="3"
-                placeholder="What are you thinking?"
-              ></textarea>
-            </div>
-          </div>
-        </div>
-        <div class="btn-toolbar justify-content-between">
-          <div class="btn-group">
-            <button type="submit" class="btn btn-primary">share</button>
-          </div>
-          <div class="btn-group">
-            <button
-              id="btnGroupDrop1"
-              type="button"
-              class="btn btn-link dropdown-toggle"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <i class="fa fa-globe"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop1">
-              <a class="dropdown-item" href="#">
-                <i class="fa fa-globe"></i> Public
-              </a>
-              <a class="dropdown-item" href="#">
-                <i class="fa fa-users"></i> Friends
-              </a>
-              <a class="dropdown-item" href="#">
-                <i class="fa fa-user"></i> Just me
-              </a>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
+  <b-card no-body>
+    <b-card-header header-tag="nav">
+      <b-nav card-header tabs>
+        <b-nav-item active>Post</b-nav-item>
+      </b-nav>
+    </b-card-header>
+
+    <b-card-body>
+      <b-form @submit="post">
+        <b-form-textarea
+          id="tweet"
+          v-model="tweet"
+          placeholder="What are you thinking?"
+          rows="3"
+        ></b-form-textarea>
+        <b-button type="submit" variant="primary" class="mt-2">Post</b-button>
+      </b-form>
+    </b-card-body>
+  </b-card>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: "FormPost",
+  data(){
+    return {
+      tweet: ''
+    }
+  },
   props: {
     msg: String,
   },
+  methods: {
+    post(e){
+      let url = this.$hostname;
+      e.preventDefault();
+      axios.post(`${url}tweet`,  { tweet: this.tweet } , { withCredentials: true })
+      .then(response => {
+        this.$router.go();
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    }
+  }
 };
 </script>

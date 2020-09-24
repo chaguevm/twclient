@@ -26,20 +26,27 @@
             </div>
         </b-card-header>
         <b-card-body>
-            <div class="text-muted h7 mb-2"><b-icon icon="clock"></b-icon> Hace unos segundos</div>
-            <b-card-text v-html="format(tweet.tweet)"></b-card-text>
+            <div class="text-muted h7 mb-2"><b-icon icon="clock"></b-icon> {{format_time(tweet.created_at)}}</div>
+            <b-card-text v-html="format_tweet(tweet.tweet)"></b-card-text>
         </b-card-body>
         <b-card-footer>
-            <b-link href="/like" class="card-link"><b-icon icon="hand-thumbs-up"></b-icon> Like</b-link>
-            <b-link href="/like" class="card-link"><b-icon icon="chat-left-text"></b-icon> Comment</b-link>
-            <b-link href="/like" class="card-link"><b-icon icon="share"></b-icon> Share</b-link>
+            <b-link href="#" class="card-link"><b-icon icon="hand-thumbs-up"></b-icon> Like</b-link>
+            <b-link href="#" class="card-link" v-b-toggle="'comment'+tweet.id"><b-icon icon="chat-left-text"></b-icon> Comment</b-link>
+            <b-link href="#" class="card-link"><b-icon icon="share"></b-icon> Share</b-link>
         </b-card-footer>
+
+        <b-collapse :id="'comment'+tweet.id">
+        <b-card title="Collapsible card">
+            Hello world!
+        </b-card>
+        </b-collapse>
     </b-card>
 </div>
 </template>
 
 <script>
 import axios from 'axios';
+import { format } from 'timeago.js';
 
 export default {
     name: 'Timeline',
@@ -52,9 +59,12 @@ export default {
         }
     },
     mounted(){
-        console.log('mounted');
+        const params = this.$route.params;
+        let url = 'http://localhost:3000/tweets';
+        if(Object.keys(params).length !== 0 && params.constructor === Object)
+            url += `/${params.username}`;
         axios
-          .get('http://localhost:3000/tweets', { withCredentials: true })
+          .get(url, { withCredentials: true })
           .then(res => {
               if(res.data.code === 200)
                 this.tweets = res.data.tweets;
@@ -64,7 +74,7 @@ export default {
           })
     },
     methods: {
-        format(v) {
+        format_tweet(v) {
             const regex = /[#]+([A-Za-z0-9-_]+)/gi;
             const match = v.match(regex);
             if(match){
@@ -74,6 +84,9 @@ export default {
                 });
             }
             return v;
+        },
+        format_time(v){
+            return format(v);
         }
     }
 }

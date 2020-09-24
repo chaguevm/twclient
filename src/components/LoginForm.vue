@@ -85,7 +85,7 @@ import { mapState, mapMutations } from 'vuex';
                         this.message = response.data.message;
                     }else if(response.data.code === 200){
                         if (localStorage.getItem("user") === null) {
-                            localStorage.setItem('user', true);
+                            localStorage.setItem('user', JSON.stringify({status: true, username: this.login.username }));
                         }
                         this.check();
                         this.$router.push('/');
