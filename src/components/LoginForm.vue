@@ -72,7 +72,6 @@ import { mapState, mapMutations } from 'vuex';
                 evnt.preventDefault();
                 axios.post('http://localhost:3000/login', this.login, { withCredentials: true })
                 .then( response => {
-                    console.log(response.data);
                     if(response.data.code === 401){
                         if(response.data.message == "Invalid Password"){
                             this.passerror = false;

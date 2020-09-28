@@ -8,12 +8,35 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: () => import(/* webpackChunkName: "home" */ '../views/Home.vue'),
-    meta: {
-      title: route => 'TwNode Vue Client',
-      requiresAuth: true
-    }
+    components: {
+      left: () => import(/* webpackChunkName: "leftsidebar" */ '../views/LeftSidebar.vue'),
+      default: () => import(/* webpackChunkName: "maincontainer" */ '../views/MainContainer.vue'),
+      right: () =>import(/* webpackChunkName: "rightsidebar" */ '../views/RightSidebar.vue'),
+    },
+    children: [
+      {
+        path: '',
+        name: 'Home',
+        components: {
+          center: () => import(/* webpackChunkName: "home" */ '../views/Home.vue')
+        },
+        meta: {
+          title: route => 'TwNode Vue Client',
+          requiresAuth: true
+        }
+      },
+      {
+        path: '/user/:username',
+        name: 'Profile',
+        components: {
+          center: () => import(/* webpackChunkName: "profile" */ '../views/Profile.vue')
+        },
+        meta: {
+          title: route => `Perfil de ${route.params.username}`,
+          requiresAuth: true
+        }
+      }
+    ]
   },
   {
     path: '/about',
@@ -32,7 +55,9 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue'),
+    components: {
+      default: () => import(/* webpackChunkName: "login" */ '../views/Login.vue'), 
+    },
     meta: {
       title: route => 'TwNode Vue Login',
       hideForAuth: true
@@ -45,15 +70,6 @@ const routes = [
     meta: {
       title: route => 'TwNode Vue SignUp',
       hideForAuth: true
-    }
-  },
-  {
-    path: '/:username',
-    name: 'Profile',
-    component: () => import(/* webpackChunkName: "profile" */ '../views/Profile.vue'),
-    meta: {
-      title: route => `Perfil de ${route.params.username}`,
-      requiresAuth: true
     }
   }
 ]

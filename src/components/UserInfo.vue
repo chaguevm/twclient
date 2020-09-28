@@ -1,5 +1,5 @@
 <template>
-  <div class="col-md-3 d-none d-sm-none d-md-none d-lg-block" v-if="user">
+  <div class="d-none d-sm-none d-md-none d-lg-block" v-if="user">
       <b-card>
             <div class="d-flex justify-content-start align-items-center">
                 <b-card-img
@@ -9,7 +9,7 @@
                     class="rounded-circle"
                 ></b-card-img>
                 <div class="ml-2">
-                    <div class="h5 m-0"><a :href="user.username">@{{user.username}}</a></div>
+                    <div class="h5 m-0"><a :href="'/user/'+user.username">@{{user.username}}</a></div>
                     <div class="h7 text-muted">{{user.fullname}}</div>
                     <div class="h7">{{user.description}}</div>                   
                 </div>
@@ -47,8 +47,7 @@ export default {
         let url = 'http://localhost:3000/user';
         if(Object.keys(params).length !== 0 && params.constructor === Object){
             url += `/${params.username}`;
-            if(!this.user);
-                this.isOwn = false;
+            this.isOwn = false;
         }
         axios.get(url, {withCredentials: true})
         .then(response => {

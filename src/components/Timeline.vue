@@ -12,7 +12,7 @@
                         <img class="rounded-circle" width="45" src="https://picsum.photos/50/50" alt="">
                     </div>
                     <div class="ml-2">
-                        <div class="h5 m-0"><a :href="`/profile/${tweet.username}`">@{{tweet.username}}</a></div>
+                        <div class="h5 m-0"><a :href="'user/'+tweet.username">@{{tweet.username}}</a></div>
                         <div class="h7 text-muted">{{tweet.fullname}} </div>
                     </div>
                 </div>
@@ -51,7 +51,7 @@ import { format } from 'timeago.js';
 export default {
     name: 'Timeline',
     props: {
-        msg: String
+        origen: String
     },
     data(){
         return {
@@ -59,10 +59,12 @@ export default {
         }
     },
     mounted(){
-        const params = this.$route.params;
-        let url = 'http://localhost:3000/tweets';
-        if(Object.keys(params).length !== 0 && params.constructor === Object)
-            url += `/${params.username}`;
+        console.log(this.origen)
+        let url = this.$hostname+'tweets/';
+        if(this.origen)
+            url += this.origen;
+
+        console.log(url);
         axios
           .get(url, { withCredentials: true })
           .then(res => {

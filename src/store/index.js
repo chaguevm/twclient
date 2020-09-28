@@ -9,7 +9,8 @@ export default new Vuex.Store({
     user: {
       logged: null,
       message: ''
-    }
+    },
+    isActive: false
   },
   mutations: {
     checkLogin: state => {
@@ -31,6 +32,12 @@ export default new Vuex.Store({
     unCheckLogin: state => {
       state.user.logged = null;
       state.user.message = '';
+    },
+    turnOn: state => {
+      state.isActive = true
+    },
+    turnOff: state => {
+      state.isActive = false
     }
   },
   actions: {

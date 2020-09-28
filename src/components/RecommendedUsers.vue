@@ -18,7 +18,7 @@
             class="rounded-circle"
         ></b-card-img>
         <div class="ml-2">
-            <div class="h5 m-0"><a href="/profile/">@{{u.username}}</a></div>
+            <div class="h5 m-0"><a :href="'/user/'+u.username">@{{u.username}}</a></div>
             <div class="h7 text-muted">{{u.fullname}}</div>
             <div class="h7">{{u.description}}</div>
         </div>
